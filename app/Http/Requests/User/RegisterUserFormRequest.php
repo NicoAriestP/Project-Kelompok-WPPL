@@ -29,6 +29,7 @@ class RegisterUserFormRequest extends FormRequest
             'name' => 'required|string|min:2|max:255',
             'email' => 'required|string|email:rfc,dns|max:255|unique:users',
             'password' => 'required|string|min:6|max:255',
+            'phone' => 'required|numeric|max_digits:16|min_digits:10|unique:users,phone',
         ];
     }
 }

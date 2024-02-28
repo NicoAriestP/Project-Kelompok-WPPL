@@ -54,7 +54,7 @@ class UserController extends Controller
 
     public function detail(User $model)
     {
-        return UsersResource::make($model);
+        return UserResource::make($model);
     }
 
     public function update(User $model, EditUserFormRequest $request, UserAction $action)
