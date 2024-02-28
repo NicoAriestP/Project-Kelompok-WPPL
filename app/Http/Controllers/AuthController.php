@@ -67,7 +67,7 @@ class AuthController extends Controller
 
         if ($user) {
             return response()->json([
-                'user' => $user,
+                'data' => $user,
             ], 200);
         }
     }
