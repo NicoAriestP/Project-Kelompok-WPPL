@@ -22,6 +22,8 @@ class UserAction
 
 		$user = new User($validated);
 
+        $user->is_leader = true;
+
 		$user->save();
 
 		return $user;
@@ -38,6 +40,8 @@ class UserAction
             $validated['password'] = bcrypt($validated['password']);
 
             $model = new User($validated);
+
+            $model->is_leader = false;
 
             $model->save();
             
