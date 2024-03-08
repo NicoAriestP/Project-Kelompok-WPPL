@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -42,4 +43,10 @@ Route::middleware('auth:api')->controller(CategoryController::class)->group(func
     Route::post('/categories', 'create')->name('api.category.create');
     Route::put('/categories/{category}', 'update')->name('api.category.update');
     Route::delete('/categories/{category}', 'destroy')->name('api.category.delete');
+});
+
+Route::middleware('auth:api')->controller(CommentController::class)->group(function () {
+    Route::post('task/comment/{task}', 'store')->name('api.comment.create');
+    Route::put('task/comment/{comment}', 'update')->name('api.comment.update');
+    Route::delete('task/comment/{comment}', 'destroy')->name('api.comment.delete');
 });

@@ -61,9 +61,19 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [
-            'email'=>$this->email,
-            'name'=>$this->name
+            'email' => $this->email,
+            'name' => $this->name
         ];
     }
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    // public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    // {
+    //     return $this->hasMany(Task::class);
+    // }
 
 }
