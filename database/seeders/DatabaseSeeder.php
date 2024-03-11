@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class, 
             UserSeeder::class, 
             TaskSeeder::class,
-            CommentSeeder::class,
+            // CommentSeeder::class,
         ]);
     }
 }
