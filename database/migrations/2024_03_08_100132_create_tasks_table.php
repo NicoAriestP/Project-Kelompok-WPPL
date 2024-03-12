@@ -20,9 +20,9 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('set null');
 
-            $table->string('name', 255);
+            $table->string('title', 255);
             $table->text('description');
-            $table->date('due_at');
+            $table->datetime('due_at');
             $table->string('priority', 20);
             $table->string('effort', 20);
             $table->string('status', 20);

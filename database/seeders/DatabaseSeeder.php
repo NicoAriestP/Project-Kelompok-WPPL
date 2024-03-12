@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
 use App\Models\Task;
 use Illuminate\Database\Seeder;
 
@@ -21,7 +20,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class, 
             UserSeeder::class, 
             TaskSeeder::class,
-            // CommentSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }
