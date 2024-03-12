@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,4 +50,12 @@ Route::middleware('auth:api')->controller(CommentController::class)->group(funct
     Route::post('task/comment/{task}', 'store')->name('api.comment.create');
     Route::put('task/comment/{comment}', 'update')->name('api.comment.update');
     Route::delete('task/comment/{comment}', 'destroy')->name('api.comment.delete');
+});
+
+Route::middleware('auth:api')->controller(TaskController::class)->group(function () {
+    Route::get('/tasks', 'index')->name('api.task.list');
+    // Route::get('/tasks/{model}', 'detail')->name('api.user.detail');
+    // Route::post('/tasks', 'create')->name('api.user.create');
+    // Route::put('/tasks/{model}', 'update')->name('api.user.update');
+    // Route::delete('/tasks/{model}', 'destroy')->name('api.user.delete');
 });
