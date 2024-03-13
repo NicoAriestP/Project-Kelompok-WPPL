@@ -43,6 +43,10 @@ class AuthController extends Controller
                 'type' => 'Bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60 * 24,
             ], 200);
+        }else {
+            return response()->json([
+                'message' => 'Username / Password Salah',
+            ], 401);
         }
     }
 
