@@ -26,11 +26,27 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
+        $estimatedTimeDummy = [
+            '1 Hari',
+            '2 Hari',
+            '3 Hari',
+            '4 Hari',
+            '5 Hari',
+        ];
+
+        // Generate a random index within the range of the array
+        $randomIndex = rand(0, count($estimatedTimeDummy) - 1);
+
+        // Get the random word from the array
+        $randomEstimation = $estimatedTimeDummy[$randomIndex];
+
         return [
             'category_id' => rand(1, Category::count()),
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->text(100),
             'due_at' => $this->faker->dateTimeBetween('-1 week', '+1 month'), 
+            'finished_at' => $this->faker->dateTimeBetween('0 week', '+1 week'),
+            'estimation' => $randomEstimation,
             'priority' => $this->faker->randomElement([
                 PriorityType::LOW, 
                 PriorityType::NORMAL, 
