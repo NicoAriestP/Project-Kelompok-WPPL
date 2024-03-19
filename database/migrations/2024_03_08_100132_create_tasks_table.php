@@ -20,6 +20,23 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('set null');
 
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
+            $table->foreignId('updated_by')
+                ->nullable()
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
+            $table->foreignId('pic_id')
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
             $table->string('title', 255);
             $table->text('description');
             $table->datetime('due_at');

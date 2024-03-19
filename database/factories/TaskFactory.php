@@ -42,6 +42,7 @@ class TaskFactory extends Factory
 
         return [
             'category_id' => rand(1, Category::count()),
+            'pic_id' => rand(1, User::count()),
             'title' => $this->faker->sentence(5),
             'description' => $this->faker->text(100),
             'due_at' => $this->faker->dateTimeBetween('-1 week', '+1 month'), 
