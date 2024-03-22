@@ -6,32 +6,33 @@ use App\Http\Requests\User\RegisterUserFormRequest;
 use App\Http\Requests\User\CreateUserFormRequest;
 use App\Http\Requests\User\EditUserFormRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\QueueableAction\QueueableAction;
-use Throwable; 
+use Throwable;
 
-class UserAction 
+class UserAction
 {
-	public function register(RegisterUserFormRequest $request) : User
-	{
-		$validated = $request->validated();
+    public function register(RegisterUserFormRequest $request): User
+    {
+        $validated = $request->validated();
 
-		$validated['password'] = bcrypt($validated['password']);
+        $validated['password'] = bcrypt($validated['password']);
 
-		$user = new User($validated);
+        $user = new User($validated);
 
         $user->is_leader = true;
 
-		$user->save();
+        $user->save();
 
-		return $user;
-	}
+        return $user;
+    }
 
-	public function save(CreateUserFormRequest $request): User
+    public function save(CreateUserFormRequest $request): User
     {
-        DB::beginTransaction(); 
+        DB::beginTransaction();
 
         try {
 
@@ -43,16 +44,17 @@ class UserAction
 
             $model->is_leader = false;
 
+            $model->leader_id = Auth::user()->id;
+
             $model->save();
-            
-            DB::commit(); 
+
+            DB::commit();
 
             return $model;
-
         } catch (Throwable $error) {
-        	
-            DB::rollback(); 
-            throw $error; 
+
+            DB::rollback();
+            throw $error;
         }
     }
 

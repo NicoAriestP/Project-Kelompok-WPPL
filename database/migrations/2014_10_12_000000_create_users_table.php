@@ -25,7 +25,8 @@ return new class extends Migration
                 ->constrained('users')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
-                
+
+            $table->unsignedBigInteger('leader_id')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -34,6 +35,12 @@ return new class extends Migration
             $table->tinyInteger('is_leader')->default(0);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('leader_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 

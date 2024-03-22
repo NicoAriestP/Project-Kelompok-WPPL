@@ -23,6 +23,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'phone',
         'is_leader',
+        'leader_id',
     ];
 
     /**
@@ -77,4 +78,18 @@ class User extends Authenticatable implements JWTSubject
     //     return $this->hasMany(Task::class);
     // }
 
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'task_user', 'user_id', 'task_id');
+    }
+
+    public function leader(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(self::class, 'leader_id', 'id');
+    }
+
+    public function subordinate(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(self::class, 'leader_id', 'id');
+    }
 }

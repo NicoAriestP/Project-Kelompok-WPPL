@@ -26,15 +26,15 @@ class UserController extends Controller
         $search = $request->input('search', '');
 
         $query = User::query()
-                ->where(function ($query) use ($search) {
-                        if ($search) {
-                        $query->where('name', 'like', '%' . $search . '%')
-                            ->orWhere('phone', 'like', '%' . $search . '%')
-                            ->orWhere('id', 'like', '%' . $search . '%');
-                        }
-                    })
-                ->orderBy($sort, $order)
-                ->paginate($perPage);
+            ->where(function ($query) use ($search) {
+                if ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%')
+                        ->orWhere('id', 'like', '%' . $search . '%');
+                }
+            })
+            ->orderBy($sort, $order)
+            ->paginate($perPage);
 
         return UserCollection::make($query);
     }
@@ -61,7 +61,7 @@ class UserController extends Controller
     {
         $model = $action->update($model, $request);
 
-        if ($model){
+        if ($model) {
             return response()->json($model, 200);
         } else {
             return response()->json([
@@ -74,7 +74,7 @@ class UserController extends Controller
     {
         $model->delete();
 
-        if ($model){
+        if ($model) {
             return response()->json(null, 204);
         } else {
             return response()->json([
