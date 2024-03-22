@@ -36,6 +36,7 @@ Route::middleware('auth:api')->controller(UserController::class)->group(function
     Route::post('/users', 'create')->name('api.user.create');
     Route::put('/users/{model}', 'update')->name('api.user.update');
     Route::delete('/users/{model}', 'destroy')->name('api.user.delete');
+    Route::get('/user/subordinate', 'get_subordinate')->name('api.user.subordinate');
 });
 
 Route::middleware('auth:api')->controller(CategoryController::class)->group(function () {

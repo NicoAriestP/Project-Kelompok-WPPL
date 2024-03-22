@@ -82,4 +82,12 @@ class UserController extends Controller
             ], 400);
         }
     }
+
+    public function get_subordinate(): UserCollection
+    {
+        $user = auth()->user();
+        $subordinate = User::where('leader_id', $user->id)->with('subordinate')->get();
+
+        return UserCollection::make($subordinate);
+    }
 }

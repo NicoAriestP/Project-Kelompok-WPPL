@@ -43,7 +43,7 @@ class AuthController extends Controller
                 'type' => 'Bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60 * 24,
             ], 200);
-        }else {
+        } else {
             return response()->json([
                 'message' => 'Username / Password Salah',
             ], 401);
@@ -58,7 +58,7 @@ class AuthController extends Controller
         // invalidate token
         $invalidate = JWTAuth::invalidate($token);
 
-        if($invalidate) {
+        if ($invalidate) {
             return response()->json([
                 'message' => 'Successfully logged out',
             ], 200);
