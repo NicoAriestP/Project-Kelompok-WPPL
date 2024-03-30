@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->text('description');
             $table->datetime('due_at');
-            $table->datetime('finished_at');
+            $table->datetime('finished_at')->nullable();
             $table->string('estimation', 20);
             $table->string('priority', 20);
             $table->string('effort', 20);
