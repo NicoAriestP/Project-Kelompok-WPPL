@@ -73,14 +73,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Comment::class);
     }
 
-    // public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
-    // {
-    //     return $this->hasMany(Task::class);
-    // }
-
-    public function tasks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(Task::class, 'task_user', 'user_id', 'task_id');
+        return $this->hasMany(Task::class);
     }
 
     public function leader(): \Illuminate\Database\Eloquent\Relations\BelongsTo
