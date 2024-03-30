@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\User;
 
-use App\Enum\UserType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;

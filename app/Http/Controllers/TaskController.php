@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use App\Actions\Task\TaskAction;
-use App\Http\Requests\Task\TaskFormRequest;
+use App\Actions\Task\TaskAction;
+use App\Http\Requests\Task\CreateTaskFormRequest;
+use App\Http\Requests\Task\EditTaskFormRequest;
 use App\Http\Resources\Task\TaskCollection;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
@@ -31,18 +32,18 @@ class TaskController extends Controller
         return TaskCollection::make($query);
     }
 
-    // public function create(TaskFormRequest $request, TaskAction $action)
-    // {
-    //     $model = $action->save($request);
+    public function create(CreateTaskFormRequest $request, TaskAction $action)
+    {
+        $model = $action->save($request);
 
-    //     if ($model) {
-    //         return response()->json($model, 201);
-    //     } else {
-    //         return response()->json([
-    //             'message' => 'Create Task Failed',
-    //         ], 400);
-    //     }
-    // }
+        if ($model) {
+            return response()->json($model, 201);
+        } else {
+            return response()->json([
+                'message' => 'Create Task Failed',
+            ], 400);
+        }
+    }
 
     public function detail(Task $model)
     {

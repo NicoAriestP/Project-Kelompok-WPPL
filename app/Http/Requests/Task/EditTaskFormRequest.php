@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Task;
 
+use App\Enum\EffortType;
+use App\Enum\PriorityType;
+use App\Enum\StatusType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 
-class EditUserFormRequest extends FormRequest
+class EditTaskFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +18,6 @@ class EditUserFormRequest extends FormRequest
      */
     public function authorize()
     {
-        // return ! Auth::guest();
         return true;
     }
 

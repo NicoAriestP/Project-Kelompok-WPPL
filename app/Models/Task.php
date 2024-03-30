@@ -14,9 +14,12 @@ class Task extends Model
 
     protected $fillable = [
         'category_id',
+        'pic_id',
         'title',
         'description',
         'due_at',
+        'finished_at',
+        'estimation',
         'priority',
         'effort',
         'status',
