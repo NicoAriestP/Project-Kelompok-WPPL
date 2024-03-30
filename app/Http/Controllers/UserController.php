@@ -25,7 +25,10 @@ class UserController extends Controller
         $order = $request->input('order', 'asc');
         $search = $request->input('search', '');
 
+        $user = auth()->user();
+
         $query = User::query()
+            ->with('leader')
             ->where(function ($query) use ($search) {
                 if ($search) {
                     $query->where('name', 'like', '%' . $search . '%')
@@ -33,6 +36,7 @@ class UserController extends Controller
                         ->orWhere('id', 'like', '%' . $search . '%');
                 }
             })
+            ->where('leader_id', $user->id)
             ->orderBy($sort, $order)
             ->paginate($perPage);
 
