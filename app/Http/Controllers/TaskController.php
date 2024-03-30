@@ -44,10 +44,12 @@ class TaskController extends Controller
     //     }
     // }
 
-    // public function detail(Task $model)
-    // {
-    //     return TaskResource::make($model);
-    // }
+    public function detail(Task $model)
+    {
+        $model->load(['pic', 'createdBy']);
+
+        return TaskResource::make($model);
+    }
 
     // public function update(Task $model, TaskFormRequest $request, TaskAction $action)
     // {

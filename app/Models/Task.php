@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder; 
 use Illuminate\Http\Request;
+use App\Traits\Model\Blameable;
 
 class Task extends Model
 {
-    use HasFactory;
+    use Blameable, HasFactory;
 
     protected $fillable = [
         'category_id',
@@ -36,6 +37,16 @@ class Task extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function pic()
+    {
+        return $this->belongsTo(User::class, 'pic_id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     /*
