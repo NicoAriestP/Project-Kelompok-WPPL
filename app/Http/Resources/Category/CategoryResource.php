@@ -16,7 +16,9 @@ class CategoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            'created_by' => $this->createdBy->name ?? null,
+            'updated_by' => $this->updatedBy->name ?? null,
         ];
     }
 }

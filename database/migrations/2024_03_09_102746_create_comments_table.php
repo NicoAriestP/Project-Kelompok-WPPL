@@ -16,6 +16,17 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('task_id')->constrained()->references('id')->on('tasks')->cascadeOnDelete();
             $table->text('comment');
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
+            $table->foreignId('updated_by')
+                ->nullable()
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
             $table->timestamps();
         });
     }

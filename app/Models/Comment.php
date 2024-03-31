@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\Model\Blameable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory, Blameable;
 
     protected $fillable = [
-        'user_id', 
-        'task_id', 
+        'user_id',
+        'task_id',
         'comment'
     ];
 

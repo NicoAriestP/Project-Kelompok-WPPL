@@ -22,7 +22,7 @@ class CommentFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['exists:users,id'],
+            'user_id' => ['nullable', 'exists:users,id'],
             'task_id' => ['nullable', 'exists:tasks,id'],
             'comment' => ['required', 'max:255']
         ];

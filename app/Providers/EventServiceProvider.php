@@ -27,6 +27,8 @@ class EventServiceProvider extends ServiceProvider
     {
         \App\Models\User::observe(\App\Observers\UserObserver::class);
         \App\Models\Task::observe(\App\Observers\TaskObserver::class);
+        \App\Models\Category::observe(\App\Observers\CategoryObserver::class);
+        \App\Models\Comment::observe(\App\Observers\CommentObserver::class);
     }
 
     /**

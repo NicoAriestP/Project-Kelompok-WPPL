@@ -5,6 +5,7 @@ namespace App\Actions\Comment;
 use App\Http\Requests\Comment\CommentFormRequest;
 use App\Models\Comment;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class CommentAction
 {
@@ -17,7 +18,10 @@ class CommentAction
      */
     public function save(CommentFormRequest $request, Task $task): Comment
     {
-        return $task->comments()->create($request->validated());
+        $validated = $request->validated();
+        $validated['user_id'] = Auth::user()->id;
+
+        return $task->comments()->create($validated);
     }
 
     /**
