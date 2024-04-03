@@ -37,4 +37,25 @@ class TaskAction
 
 	}
 
+	public function update(Task $model, EditTaskFormRequest $request): Task
+    {
+    	DB::beginTransaction();
+
+    	try {
+    		$validated = $request->validated();
+
+        	$model->fill($validated);
+        	$model->save();
+
+        	DB::commit();
+
+        	return $model;
+    		
+    	} catch (Throwable $error) {
+    		DB::rollback();
+
+    		throw $error;
+    	}
+    }
+
 }

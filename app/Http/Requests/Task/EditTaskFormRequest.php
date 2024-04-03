@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests\Task;
 
-use App\Enum\EffortType;
-use App\Enum\PriorityType;
-use App\Enum\StatusType;
+use App\Enum\Task\EffortType;
+use App\Enum\Task\PriorityType;
+use App\Enum\Task\StatusType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 
 class EditTaskFormRequest extends FormRequest
 {
@@ -28,13 +29,39 @@ class EditTaskFormRequest extends FormRequest
      */
     public function rules()
     {
-        $id = (int) $this->segment(3);
-
         return [
-            'name' => 'nullable|string|max:255',
-            'phone' => 'required|numeric|max_digits:16|min_digits:10|unique:users,phone,'.$id,
-            'email' => 'nullable|string|max:255',
-            'password' => 'nullable|string|min:6',
+            'category_id' => 'required|exists:App\Models\Category,id',
+            'pic_id' => 'required|exists:App\Models\User,id',
+            'title' => 'required|string|max:255',
+            'description' => 'required',
+            'due_at' => 'required|date_format:Y-m-d H:i:s',
+            'finished_at' => 'required|date_format:Y-m-d H:i:s',
+            'estimation' => 'required|string|max:20',
+            'priority' => ['required', 
+                Rule::in([
+                    PriorityType::LOW->value,
+                    PriorityType::NORMAL->value,
+                    PriorityType::HIGH->value,
+                    PriorityType::URGENT->value,
+                ]),
+            ],
+            'effort' => ['required', 
+                Rule::in([
+                    EffortType::EASY->value,
+                    EffortType::MEDIUM->value,
+                    EffortType::HARD->value,
+                ]),
+            ],
+            'status' => ['required', 
+                Rule::in([
+                    StatusType::OPEN->value,
+                    StatusType::IN_PROGRESS->value,
+                    StatusType::RESOLVED->value,
+                    StatusType::CLOSED->value,
+                    StatusType::REOPEN->value,
+                ]),
+            ],
+            'file' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:4096',
         ];
     }
 }

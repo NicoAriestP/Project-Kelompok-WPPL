@@ -57,6 +57,6 @@ Route::middleware('auth:api')->controller(TaskController::class)->group(function
     Route::get('/tasks', 'index')->name('api.task.list');
     Route::get('/tasks/{model}', 'detail')->name('api.task.detail');
     Route::post('/tasks', 'create')->name('api.task.create');
-    // Route::put('/tasks/{model}', 'update')->name('api.user.update');
-    // Route::delete('/tasks/{model}', 'destroy')->name('api.user.delete');
+    Route::put('/tasks/{model}', 'update')->name('api.task.update');
+    Route::delete('/tasks/{model}', 'destroy')->name('api.task.delete');
 });

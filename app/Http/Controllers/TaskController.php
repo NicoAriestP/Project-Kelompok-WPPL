@@ -52,29 +52,29 @@ class TaskController extends Controller
         return TaskResource::make($model);
     }
 
-    // public function update(Task $model, TaskFormRequest $request, TaskAction $action)
-    // {
-    //     $model = $action->update($model, $request);
+    public function update(Task $model, EditTaskFormRequest $request, TaskAction $action)
+    {
+        $model = $action->update($model, $request);
 
-    //     if ($model){
-    //         return response()->json($model, 200);
-    //     } else {
-    //         return response()->json([
-    //             'message' => 'Update Task Failed',
-    //         ], 400);
-    //     }
-    // }
+        if ($model){
+            return response()->json($model, 200);
+        } else {
+            return response()->json([
+                'message' => 'Update Task Failed',
+            ], 400);
+        }
+    }
 
-    // public function destroy(Task $model)
-    // {
-    //     $model->delete();
+    public function destroy(Task $model)
+    {
+        $model->delete();
 
-    //     if ($model){
-    //         return response()->json(null, 204);
-    //     } else {
-    //         return response()->json([
-    //             'message' => 'Delete Task Failed',
-    //         ], 400);
-    //     }
-    // }
+        if ($model){
+            return response()->json(null, 204);
+        } else {
+            return response()->json([
+                'message' => 'Delete Task Failed',
+            ], 400);
+        }
+    }
 }
