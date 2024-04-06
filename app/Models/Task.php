@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder; 
 use Illuminate\Http\Request;
 use App\Traits\Model\Blameable;
+use App\Traits\HasTaskFile;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
 
 class Task extends Model
 {
-    use Blameable, HasFactory;
+    use Blameable, HasFactory, HasTaskFile;
+
+    protected $useTypeForTaskFileFolderName = false;
 
     protected $fillable = [
         'category_id',
@@ -24,6 +30,10 @@ class Task extends Model
         'effort',
         'status',
         'file'
+    ];
+
+    protected $appends = [
+        'file_url',
     ];
 
     /*
@@ -50,6 +60,20 @@ class Task extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Provide web accessible task file url.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    public function fileUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->file
+                ? Storage::disk(config('filesystems.default', 'public'))->url($this->file)
+                : null,
+        );
     }
 
     /*

@@ -20,8 +20,13 @@ class TaskAction
 
 		try {
 			$validated = $request->validated();
+			unset($validated['file']);
 
 			$task = new Task($validated);
+
+			if (isset($request->validated()['file'])) {
+				$task->updateTaskFile($request->validated()['file']);
+			}
 
 			$task->save();
 
@@ -43,8 +48,14 @@ class TaskAction
 
     	try {
     		$validated = $request->validated();
+    		unset($validated['file']);
 
         	$model->fill($validated);
+
+        	if (isset($request->validated()['file'])) {
+				$task->updateTaskFile($request->validated()['file']);
+			}
+
         	$model->save();
 
         	DB::commit();
