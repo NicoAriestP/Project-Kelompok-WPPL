@@ -24,10 +24,23 @@ class TaskController extends Controller
         $sort = $request->input('sort', 'id');
         $order = $request->input('order', 'asc');
 
-        $query = Task::query()
+        $user = auth()->user();
+
+        if ($user->is_leader) {
+            $query = Task::query()
+                ->with(['category', 'pic'])
                 ->tableFilter($request)
+                ->where('created_by', $user->id)
                 ->orderBy($sort, $order)
                 ->paginate($perPage);
+        } else {
+            $query = Task::query()
+                ->with(['category', 'pic'])
+                ->tableFilter($request)
+                ->where('pic_id', $user->id)
+                ->orderBy($sort, $order)
+                ->paginate($perPage);
+        }
 
         return TaskCollection::make($query);
     }
@@ -47,7 +60,7 @@ class TaskController extends Controller
 
     public function detail(Task $model)
     {
-        $model->load(['pic', 'createdBy']);
+        $model->load(['pic', 'createdBy', 'category']);
 
         return TaskResource::make($model);
     }
