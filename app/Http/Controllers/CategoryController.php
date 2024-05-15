@@ -115,4 +115,28 @@ class CategoryController extends Controller
             ], 400);
         }
     }
+
+    /**
+     * Get the total number of categories.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    // public function total_category(): JsonResponse
+    // {
+    //     try {
+    //         // count category per team (using leader_id)
+    //         $user = auth()->user();
+    //         $total = Category::whereHas('user', function ($query) use ($user) {
+    //             $query->where('leader_id', $user->id);
+    //         })->count();
+
+    //         return response()->json([
+    //             'total' => $total,
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'message' => $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
 }

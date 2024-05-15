@@ -19,5 +19,9 @@ class UserSeeder extends Seeder
         User::factory([
             'leader_id' => 1,
         ])->create();
+        User::factory()->create([
+            'email' => 'user@gmail.com',
+            'leader_id' => 1,
+        ]);
     }
 }

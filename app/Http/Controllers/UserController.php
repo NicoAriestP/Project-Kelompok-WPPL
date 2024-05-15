@@ -94,4 +94,13 @@ class UserController extends Controller
 
         return UserCollection::make($subordinate);
     }
+
+    // public function total_user(): \Illuminate\Http\JsonResponse
+    // {
+    //     $user = auth()->user();
+    //     $total = User::where('leader_id', $user->id)->count();
+    //     // return with json
+    //     return response()->json(['total' => $user]);
+    //     // return $total;
+    // }
 }

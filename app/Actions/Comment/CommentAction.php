@@ -11,6 +11,18 @@ class CommentAction
 {
 
     /**
+     * Retrieves all comments for a task.
+     *
+     * @param Task $task The task to retrieve comments for.
+     * @return Comment[] The comments for the task.
+     */
+
+    public function getComments(Task $task): array
+    {
+        return $task->comments()->with('user')->get()->toArray();
+    }
+
+    /**
      * Saves a new comment.
      *
      * @param CommentFormRequest $request The request object containing the validated comment data.

@@ -32,6 +32,7 @@ Route::middleware('auth:api')->controller(AuthController::class)->group(function
 
 Route::middleware('auth:api')->controller(UserController::class)->group(function () {
     Route::get('/users', 'index')->name('api.user.list');
+    Route::get('/users/total', 'total_user')->name('api.user.total');
     Route::get('/users/{model}', 'detail')->name('api.user.detail');
     Route::post('/users', 'create')->name('api.user.create');
     Route::put('/users/{model}', 'update')->name('api.user.update');
@@ -41,6 +42,7 @@ Route::middleware('auth:api')->controller(UserController::class)->group(function
 
 Route::middleware('auth:api')->controller(CategoryController::class)->group(function () {
     Route::get('/categories', 'index')->name('api.category.list');
+    Route::get('/categories/total', 'total_category')->name('api.category.total');
     Route::get('/categories/{category}', 'detail')->name('api.category.detail');
     Route::post('/categories', 'create')->name('api.category.create');
     Route::put('/categories/{category}', 'update')->name('api.category.update');
@@ -48,6 +50,7 @@ Route::middleware('auth:api')->controller(CategoryController::class)->group(func
 });
 
 Route::middleware('auth:api')->controller(CommentController::class)->group(function () {
+    Route::get('task/comment/{task}', 'index')->name('api.comment.list');
     Route::post('task/comment/{task}', 'store')->name('api.comment.create');
     Route::put('task/comment/{comment}', 'update')->name('api.comment.update');
     Route::delete('task/comment/{comment}', 'destroy')->name('api.comment.delete');
@@ -59,4 +62,8 @@ Route::middleware('auth:api')->controller(TaskController::class)->group(function
     Route::post('/tasks', 'create')->name('api.task.create');
     Route::put('/tasks/{model}', 'update')->name('api.task.update');
     Route::delete('/tasks/{model}', 'destroy')->name('api.task.delete');
+});
+
+// create total user api per team
+Route::middleware('auth:api')->controller(UserController::class)->group(function () {
 });

@@ -21,6 +21,16 @@ class CommentController extends Controller
     ) {
     }
 
+    public function index(Task $task)
+    {
+        try {
+            $comments = $this->commentAction->getComments($task);
+            return CommentResource::collection($comments);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
     public function store(Task $task, CommentFormRequest $request)
     {
         try {
