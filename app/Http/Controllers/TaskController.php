@@ -9,6 +9,8 @@ use App\Http\Requests\Task\EditTaskFormRequest;
 use App\Http\Resources\Task\TaskCollection;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 
 class TaskController extends Controller
 {
@@ -69,7 +71,7 @@ class TaskController extends Controller
     {
         $model = $action->update($model, $request);
 
-        if ($model){
+        if ($model) {
             return response()->json($model, 200);
         } else {
             return response()->json([
@@ -82,12 +84,29 @@ class TaskController extends Controller
     {
         $model->delete();
 
-        if ($model){
+        if ($model) {
             return response()->json(null, 204);
         } else {
             return response()->json([
                 'message' => 'Delete Task Failed',
             ], 400);
         }
+    }
+
+    public function total_task_status(string $status): JsonResponse
+    {
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        $taskCounts = \App\Models\Task::selectRaw('status, count(*) as total_tasks')
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->where('status', $status)
+            ->groupBy('status')
+            ->get();
+
+        return response()->json([
+            'data' => $taskCounts,
+        ]);
     }
 }

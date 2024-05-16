@@ -95,12 +95,23 @@ class UserController extends Controller
         return UserCollection::make($subordinate);
     }
 
-    // public function total_user(): \Illuminate\Http\JsonResponse
-    // {
-    //     $user = auth()->user();
-    //     $total = User::where('leader_id', $user->id)->count();
-    //     // return with json
-    //     return response()->json(['total' => $user]);
-    //     // return $total;
-    // }
+    public function total_user(): \Illuminate\Http\JsonResponse
+    {
+        $user = auth()->user();
+        $total = User::where('leader_id', $user->id)->count();
+
+        return response()->json(['total' => $total]);
+
+        // $loggedInUserId = auth()->user()->id;
+        // $loggedInLeaderId = auth()->user()->leader_id;
+
+        // $userCounts = \App\Models\User::selectRaw('GROUP_CONCAT(leaders.name SEPARATOR ", ") as leader_names, count(*) as total_users')
+        //     ->leftJoin('users as leaders', 'leaders.id', '=', 'users.leader_id')
+        //     ->where('users.leader_id', $loggedInLeaderId)
+        //     ->orWhere('users.id', $loggedInUserId)
+        //     ->groupBy('users.leader_id')
+        //     ->get();
+
+        // return response()->json($userCounts);
+    }
 }

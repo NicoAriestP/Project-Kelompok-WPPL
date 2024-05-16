@@ -121,22 +121,25 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    // public function total_category(): JsonResponse
-    // {
-    //     try {
-    //         // count category per team (using leader_id)
-    //         $user = auth()->user();
-    //         $total = Category::whereHas('user', function ($query) use ($user) {
-    //             $query->where('leader_id', $user->id);
-    //         })->count();
+    public function total_category(): JsonResponse
+    {
+        try {
+            $loggedInUserId = auth()->user()->id;
+            $loggedInLeaderId = auth()->user()->leader_id;
 
-    //         return response()->json([
-    //             'total' => $total,
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'message' => $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
+            $categoryCount = \App\Models\Category::whereHas('creator', function ($query) use ($loggedInLeaderId) {
+                $query->where('leader_id', $loggedInLeaderId);
+            })
+                ->orWhere('created_by', $loggedInUserId)
+                ->count();
+
+            return response()->json([
+                'data' => $categoryCount,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
