@@ -29,7 +29,10 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::query()->get();
+            $user = auth()->user();
+            $categories = Category::query()
+                    ->where('created_by', $user->id)
+                    ->get();
 
             return CategoryResource::collection($categories);
         } catch (\Exception $e) {
