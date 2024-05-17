@@ -109,4 +109,41 @@ class TaskController extends Controller
             'data' => $taskCounts,
         ]);
     }
+
+    public function summary(Request $request)
+    {
+        $status = $request->status;
+        $priority = $request->priority;
+        $effort = $request->effort;
+
+        if (auth()->user()->is_leader) {
+           $createdBy = auth()->user()->id;
+        } else {
+            $user = auth()->user()->load(['leader']);
+            $createdBy = $user->leader->id;
+        }
+
+        $taskCount = Task::query()
+            ->where(function ($query) use ($status) {
+                if ($status) {
+                    $query->where('status', $status);
+                }
+            })
+            ->where(function ($query) use ($priority) {
+                if ($priority) {
+                    $query->where('priority', $priority);
+                }
+            })
+            ->where(function ($query) use ($effort) {
+                if ($effort) {
+                    $query->where('effort', $effort);
+                }
+            })
+            ->where('created_by', $createdBy)
+            ->count();
+
+        return response()->json([
+            'totalTask' => $taskCount,
+        ], 200);
+    }
 }
