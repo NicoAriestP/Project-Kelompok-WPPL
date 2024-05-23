@@ -32,7 +32,7 @@ class AuthController extends Controller
         ]);
 
         $token = auth()->attempt([
-            'email' => $request->email,
+            'email' => $request->password,
             'password' => $request->password,
         ]);
 

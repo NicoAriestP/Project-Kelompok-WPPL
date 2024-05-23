@@ -64,6 +64,7 @@ Route::middleware('auth:api')->controller(TaskController::class)->group(function
     Route::post('/tasks', 'create')->name('api.task.create');
     Route::put('/tasks/{model}', 'update')->name('api.task.update');
     Route::delete('/tasks/{model}', 'destroy')->name('api.task.delete');
+    Route::delete('/tasks/{model}/delete-file', 'deleteFile')->name('api.task.delete-file');
 });
 
 // create total user api per team

@@ -93,6 +93,13 @@ class TaskController extends Controller
         }
     }
 
+    public function deleteFile(Task $model)
+    {
+        $model->deleteTaskFile();
+
+        return back(303)->with('status', 'file-deleted');
+    }
+
     public function total_task_status(string $status): JsonResponse
     {
         $currentMonth = Carbon::now()->month;
