@@ -31,8 +31,8 @@ class CategoryController extends Controller
         try {
             $user = auth()->user();
             $categories = Category::query()
-                    ->where('created_by', $user->id)
-                    ->get();
+                ->where('created_by', $user->id)
+                ->get();
 
             return CategoryResource::collection($categories);
         } catch (\Exception $e) {
@@ -130,7 +130,7 @@ class CategoryController extends Controller
             $loggedInUserId = auth()->user()->id;
             $loggedInLeaderId = auth()->user()->leader_id;
 
-            $categoryCount = \App\Models\Category::whereHas('creator', function ($query) use ($loggedInLeaderId) {
+            $categoryCount = \App\Models\Category::whereHas('createdBy', function ($query) use ($loggedInLeaderId) {
                 $query->where('leader_id', $loggedInLeaderId);
             })
                 ->orWhere('created_by', $loggedInUserId)

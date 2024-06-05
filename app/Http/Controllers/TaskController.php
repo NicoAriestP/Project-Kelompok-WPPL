@@ -100,21 +100,37 @@ class TaskController extends Controller
         return back(303)->with('status', 'file-deleted');
     }
 
-    public function total_task_status(string $status): JsonResponse
+    public function total_task_status(Request $request): JsonResponse
     {
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
+        $status = $request->status;
 
-        $taskCounts = \App\Models\Task::selectRaw('status, count(*) as total_tasks')
+
+        $taskCount = Task::query()
             ->whereMonth('created_at', $currentMonth)
             ->whereYear('created_at', $currentYear)
-            ->where('status', $status)
-            ->groupBy('status')
-            ->get();
+            ->where(function ($query) use ($status) {
+                if ($status) {
+                    $query->where('status', $status);
+                }
+            })
+            ->count();
 
         return response()->json([
-            'data' => $taskCounts,
-        ]);
+            'totalTask' => $taskCount,
+        ], 200);
+
+        // $taskCounts = \App\Models\Task::selectRaw('status, count(*) as total_tasks')
+        //     ->whereMonth('created_at', $currentMonth)
+        //     ->whereYear('created_at', $currentYear)
+        //     ->where('status', $status)
+        //     ->groupBy('status')
+        //     ->get();
+
+        // return response()->json([
+        //     'data' => $taskCounts,
+        // ]);
     }
 
     public function summary(Request $request)
@@ -124,7 +140,7 @@ class TaskController extends Controller
         $effort = $request->effort;
 
         if (auth()->user()->is_leader) {
-           $createdBy = auth()->user()->id;
+            $createdBy = auth()->user()->id;
         } else {
             $user = auth()->user()->load(['leader']);
             $createdBy = $user->leader->id;
