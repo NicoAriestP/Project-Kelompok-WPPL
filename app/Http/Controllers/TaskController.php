@@ -9,6 +9,7 @@ use App\Http\Requests\Task\EditTaskFormRequest;
 use App\Http\Resources\Task\TaskCollection;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
+use App\Enum\Task\StatusType;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 
@@ -167,6 +168,62 @@ class TaskController extends Controller
 
         return response()->json([
             'totalTask' => $taskCount,
+        ], 200);
+    }
+
+    public function monthlySummary(Request $request)
+    {
+        $startDate = Carbon::parse($request->start_date)
+            ->startOfDay()
+            ->format('Y-m-d H:i:s'); 
+
+        $endDate = Carbon::parse($request->end_date)
+            ->endOfDay()
+            ->format('Y-m-d H:i:s'); 
+
+        if (auth()->user()->is_leader) {
+           $createdBy = auth()->user()->id;
+        } else {
+            $user = auth()->user()->load(['leader']);
+            $createdBy = $user->leader->id;
+        }
+
+        $openTaskCount = Task::query()
+            ->where('status', StatusType::OPEN->value)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('created_by', $createdBy)
+            ->count();
+
+        $closedTaskCount = Task::query()
+            ->where('status', StatusType::CLOSED->value)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('created_by', $createdBy)
+            ->count();
+
+        $resolvedTaskCount = Task::query()
+            ->where('status', StatusType::RESOLVED->value)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('created_by', $createdBy)
+            ->count();
+
+        $inProgressTaskCount = Task::query()
+            ->where('status', StatusType::IN_PROGRESS->value)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('created_by', $createdBy)
+            ->count();
+
+        $reopenTaskCount = Task::query()
+            ->where('status', StatusType::REOPEN->value)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('created_by', $createdBy)
+            ->count();
+
+        return response()->json([
+            'open' => $openTaskCount,
+            'in_progress' => $inProgressTaskCount,
+            'resolved' => $resolvedTaskCount,
+            'closed' => $closedTaskCount,
+            'reopen' => $reopenTaskCount,
         ], 200);
     }
 }
